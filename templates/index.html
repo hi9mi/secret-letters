@@ -1,0 +1,18 @@
+{{ define "index.html" }}{{ template "header.html" . }} {{ template
+"errors.html" . }}
+
+<h2 class="form-title">Create your secret letter</h2>
+
+<form class="form" action="/letter/new" method="POST">
+  <div class="labeled-input">
+    <label for="text">Your text</label>
+    <textarea name="text" id="text"></textarea>
+  </div>
+  <div class="labeled-input">
+    <label for="ttl">Lifetime of your secret letter</label>
+    <input type="number" inputmode="numeric" name="ttl" id="ttl" />
+  </div>
+  <button type="submit" class="submit-button">Save secret letter</button>
+</form>
+
+{{ template "footer.html" . }} {{ end }}

@@ -1,0 +1,11 @@
+{{ define "key.html" }}{{ template "header.html" . }}
+
+<div class="key">
+  <p id="key-error" class="key-error hidden">
+    Failed to copy the url 😕, please try again or do it manually
+  </p>
+  <input id="key-input" type="text" readonly value="{{ .url }}" />
+  <button id="key-button">Copy</button>
+</div>
+
+{{ template "footer.html" . }} {{ end }}

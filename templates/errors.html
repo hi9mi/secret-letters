@@ -1,0 +1,11 @@
+{{ define "errors.html" }}
+  {{ if .errors }}
+    <ul class="error-messages">
+    {{ range .errors }}
+      <li class="error-message">
+        {{ . }} 😕
+      </li>
+    {{  end  }}
+    </ul>
+  {{ end }}
+{{ end }}

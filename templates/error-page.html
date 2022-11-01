@@ -1,0 +1,9 @@
+{{ define "error-page.html" }}{{ template "header.html" . }}
+<h2>Oops, something went wrong</h2>
+  <p class="error-page">
+    Cause - {{ .cause }}
+  </p>
+  <p class="error-page">
+    code - {{ .code }}
+  </p>
+{{ template "footer.html" . }} {{ end }}

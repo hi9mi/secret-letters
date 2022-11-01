@@ -1,0 +1,135 @@
+@font-face {
+  font-family: 'M PLUS 1 Code';
+  src: url('/static/font/MPLUS1Code-VariableFont_wght.ttf');
+}
+
+:root {
+  --font-family: 'M PLUS 1 Code';
+  --error-color: #ff00ff;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  line-height: 1.5;
+  color: var(--color);
+  background-color: var(--background-color);
+  font-size: 16;
+  font-family: var(--font-family), -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  overflow: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  padding: 1em;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+.header {
+  margin-bottom: 3.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.header-title {
+  font-weight: 700;
+  font-size: 3rem;
+}
+
+.error-messages {
+  margin-bottom: 2rem;
+  color: var(--error-color);
+}
+
+.form-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: clamp(100px, 50vw, 500px);
+}
+
+.labeled-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.labeled-input label {
+  font-weight: 300;
+  font-size: 0.8rem;
+}
+
+footer {
+  margin-top: 3rem;
+}
+
+footer p {
+  font-weight: 400;
+}
+
+.key {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.key-error {
+  color: var(--error-color);
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.error-page {
+  color: var(--error-color);
+}
