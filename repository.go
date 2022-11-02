@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
@@ -9,6 +10,8 @@ import (
 	"errors"
 	"io"
 	"sync"
+
+	"github.com/go-redis/redis/v8"
 )
 
 type Repository interface {
@@ -22,6 +25,15 @@ func getMemoryRepository() Repository {
 		data: make(map[string]string),
 		mu:   &sync.Mutex{},
 	}
+}
+
+func getRedisRepository() Repository {
+	return &RedisRepository{
+		*redis.NewClient(&redis.Options{
+			Addr:     "localhost:6379",
+			Password: "",
+			DB:       0,
+		}), context.Background()}
 }
 
 func encrypt(keyString string, stringToEncrypt string) (string, error) {

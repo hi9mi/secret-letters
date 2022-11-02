@@ -68,8 +68,8 @@ func main() {
 		log.Fatalf("error loading env variables: %s", err.Error())
 	}
 
-	repo := getMemoryRepository()
-	kg := getTestKeyGen()
+	repo := getRedisRepository()
+	kg := getUUIDKeyGen()
 
 	r := setupRouter(gin.Default(), &repo, &kg)
 	srv := &http.Server{
@@ -97,5 +97,4 @@ func main() {
 	<-ctx.Done()
 	log.Println("timeout of 10 seconds.")
 	log.Println("Server exiting")
-
 }
