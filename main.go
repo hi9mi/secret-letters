@@ -1,13 +1,17 @@
 package main
 
 import (
+    "context"
 	"embed"
 	"html/template"
 	"io/fs"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
 	"path/filepath"
-
+	"syscall"
+    "time"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -67,6 +71,31 @@ func main() {
 	kg := getTestKeyGen()
 
 	r := setupRouter(gin.Default(), &repo, &kg)
+    srv := &http.Server{
+		Addr:    ":8080",
+		Handler: r,
+	}
 
-	r.Run(":8080")
+	go func() {
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("listen: %s\n", err)
+		}
+	}()
+
+	quit := make(chan os.Signal)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+	log.Println("Shutdown Server ...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Fatal("Server Shutdown:", err)
+	}
+	select {
+	case <-ctx.Done():
+		log.Println("timeout of 5 seconds.")
+	}
+	log.Println("Server exiting")
+
 }
