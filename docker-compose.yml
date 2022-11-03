@@ -11,8 +11,11 @@ services:
     depends_on:
       - redis
     restart: on-failure
-    env_file:
-      - .env
+    environment:
+      - LOCAL="true"
+      - PORT=8080
+      - REDIS_URL=redis
+      - SECRET_KEY=abcdefghijklmnopqrstuvwxyzawqerz
     ports:
       - '8080:8080'
   redis:

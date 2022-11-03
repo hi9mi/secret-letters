@@ -6,6 +6,7 @@
 :root {
   --font-family: 'M PLUS 1 Code';
   --error-color: #ff00ff;
+  --help-text-color: #00ac7c;
 }
 
 *,
@@ -132,4 +133,9 @@ footer p {
 
 .error-page {
   color: var(--error-color);
+}
+
+.helper-text {
+  color: var(--help-text-color);
+  font-size: 0.8rem;
 }

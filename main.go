@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"embed"
+	"fmt"
 	"html/template"
 	"io/fs"
 	"log"
@@ -14,7 +15,6 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 )
 
 //go:embed static
@@ -64,16 +64,12 @@ func setupRouter(r *gin.Engine, repo *Repository, kg *KeyGen) *gin.Engine {
 }
 
 func main() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatalf("error loading env variables: %s", err.Error())
-	}
-
 	repo := getRedisRepository()
 	kg := getUUIDKeyGen()
 
 	r := setupRouter(gin.Default(), &repo, &kg)
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    fmt.Sprintf(":%s", os.Getenv("PORT")),
 		Handler: r,
 	}
 

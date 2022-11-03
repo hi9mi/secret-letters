@@ -8,7 +8,11 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"io"
+	"log"
+	"os"
+	"strings"
 	"sync"
 
 	"github.com/go-redis/redis/v8"
@@ -28,12 +32,24 @@ func getMemoryRepository() Repository {
 }
 
 func getRedisRepository() Repository {
-	return &RedisRepository{
-		*redis.NewClient(&redis.Options{
-			Addr:     "redis:6379",
+	var redisOpts *redis.Options
+
+	if strings.Contains(os.Getenv("LOCAL"), "true") {
+		redisOpts = &redis.Options{
+			Addr:     fmt.Sprintf("%s:6379", os.Getenv("REDIS_URL")),
 			Password: "",
 			DB:       0,
-		}), context.Background()}
+		}
+	} else {
+		builtOpts, err := redis.ParseURL(os.Getenv("REDIS_URL"))
+		if err != nil {
+			log.Fatal(err)
+		}
+		redisOpts = builtOpts
+	}
+
+	return &RedisRepository{
+		*redis.NewClient(redisOpts), context.Background()}
 }
 
 func encrypt(keyString string, stringToEncrypt string) (string, error) {

@@ -10,7 +10,16 @@
   </div>
   <div class="labeled-input">
     <label for="ttl">Lifetime of your secret letter</label>
-    <input type="number" inputmode="numeric" name="ttl" id="ttl" />
+    <input type="number" inputmode="numeric" name="ttl" id="ttl" min="{{.minTTL}}" max="{{.maxTTL}}" />
+    <p class="helper-text">
+      The lifetime of a secret letter is indicated in seconds
+    </p>
+    <p class="helper-text">
+      Minimum value {{ .minTTL }} seconds
+    </p>
+    <p class="helper-text">
+      The maximum value is {{ .maxTTL }} seconds, that is, a day
+    </p>
   </div>
   <button type="submit" class="submit-button">Save secret letter</button>
 </form>

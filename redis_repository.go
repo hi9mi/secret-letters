@@ -48,7 +48,7 @@ func (repo *RedisRepository) Set(key, letter string, ttl int) error {
 	err = repo.rdb.Set(repo.ctx, key, encryptedLetter, time.Duration(ttl) * time.Second).Err()
 
 	if err != nil || err == redis.Nil {
-		return errors.New("unable to set letter")
+		return errors.New("unable to save letter")
 	}
 
 	return nil

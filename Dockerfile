@@ -1,5 +1,7 @@
 FROM golang:1.19
 
+ENV GIN_MODE=release 
+
 WORKDIR /usr/src/secret-letters
 
 COPY go.* ./

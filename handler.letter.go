@@ -3,13 +3,18 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )
 
+const MaxTTL = 86400
+const MinTTL = 60
+
 func indexPageRoute(ctx *gin.Context) {
-	ctx.HTML(http.StatusOK, "index.html", nil)
+	ctx.HTML(http.StatusOK, "index.html", gin.H{"maxTTL": MaxTTL, "minTTL": MinTTL})
 }
 
 func saveLetterRoute(ctx *gin.Context) {
@@ -23,7 +28,7 @@ func saveLetterRoute(ctx *gin.Context) {
 				"%s is required, but was empty.",
 				verr.Field())
 		}
-		ctx.HTML(http.StatusBadRequest, "index.html", gin.H{"errors": messages})
+		ctx.HTML(http.StatusBadRequest, "index.html", gin.H{"errors": messages, "maxTTL": MaxTTL, "minTTL": MinTTL})
 		return
 	}
 
@@ -55,7 +60,14 @@ func getKeyRoute(ctx *gin.Context) {
 		return
 	}
 
-	ctx.HTML(http.StatusOK, "key.html", gin.H{"url": fmt.Sprintf("http://%s/%s", ctx.Request.Host, key)})
+	var url string
+	if strings.Contains(os.Getenv("LOCAL"), "true") {
+		url = fmt.Sprintf("http://%s/%s", ctx.Request.Host, key)
+	} else {
+		url = fmt.Sprintf("https://%s/%s", ctx.Request.Host, key)
+	}
+
+	ctx.HTML(http.StatusOK, "key.html", gin.H{"url": url})
 }
 
 func getLetterRoute(ctx *gin.Context) {
