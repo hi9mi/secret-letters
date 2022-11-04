@@ -1,5 +1,7 @@
 {{ define "letter.html" }}{{ template "header.html" . }}
-  <p>
+  <a href="{{ .homePageUrl  }}">Go to Home page</a>
+  <h2 class="letter-title">Only you will see this letter 👀</h2>
+  <p class="letter-text">
     {{ .letter }}
   </p>
 {{ template "footer.html" . }} {{ end }}

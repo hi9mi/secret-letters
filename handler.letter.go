@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -62,15 +63,22 @@ func getKeyRoute(ctx *gin.Context) {
 
 	var url string
 	if strings.Contains(os.Getenv("LOCAL"), "true") {
-		url = fmt.Sprintf("http://%s/%s", ctx.Request.Host, key)
+		url = fmt.Sprintf("http://%s/letter/%s", ctx.Request.Host, key)
 	} else {
-		url = fmt.Sprintf("https://%s/%s", ctx.Request.Host, key)
+		url = fmt.Sprintf("https://%s/letter/%s", ctx.Request.Host, key)
 	}
 
 	ctx.HTML(http.StatusOK, "key.html", gin.H{"url": url})
 }
 
 func getLetterRoute(ctx *gin.Context) {
+	ok := checkBot(ctx)
+
+	if ok {
+		ctx.Redirect(http.StatusFound, "/")
+		return
+	}
+
 	key, ok := ctx.Params.Get("key")
 	if !ok {
 		ctx.AbortWithStatus(http.StatusBadRequest)
@@ -81,5 +89,23 @@ func getLetterRoute(ctx *gin.Context) {
 		ctx.HTML(http.StatusNotFound, "error-page.html", gin.H{"cause": err.Error(), "code": http.StatusNotFound})
 		return
 	}
-	ctx.HTML(http.StatusOK, "letter.html", gin.H{"letter": letter})
+
+	var homePageUrl string
+	if strings.Contains(os.Getenv("LOCAL"), "true") {
+		homePageUrl = fmt.Sprintf("http://%s", ctx.Request.Host)
+	} else {
+		homePageUrl = fmt.Sprintf("https://%s", ctx.Request.Host)
+	}
+
+	ctx.HTML(http.StatusOK, "letter.html", gin.H{"letter": letter, "homePageUrl": homePageUrl})
+}
+
+func checkBot(ctx *gin.Context) bool {
+	userAgent := ctx.GetHeader("User-Agent")
+
+	log.Println("----------------------------------------------------------------")
+	log.Println(userAgent)
+	log.Println("----------------------------------------------------------------")
+
+	return strings.Contains(userAgent, "TelegramBot") || strings.Contains(userAgent, "vk") || strings.Contains(userAgent, "WhatsApp")
 }

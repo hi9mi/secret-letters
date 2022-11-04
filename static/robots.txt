@@ -1,0 +1,54 @@
+User-agent: bingbot
+Disallow: /letter/*
+Allow: /
+
+User-agent: ia_archiver
+Disallow: /letter/*
+Allow: /
+
+User-agent: Twitterbot
+Disallow: /letter/*
+Allow: /
+
+User-agent: TelegramBot
+Disallow: /letter/*
+Allow: /
+
+User-agent: Yandex
+Disallow: /letter/*
+Allow: /
+
+User-agent: SeznamBot
+Disallow: /letter/*
+Allow: /
+
+User-agent: DuckDuckBot
+Disallow: /letter/*
+Allow: /
+
+User-agent: AhrefsBot
+Disallow: /letter/*
+Allow: /
+
+User-agent: Applebot
+Disallow: /letter/*
+Allow: /
+
+User-agent: SearchmetricsBot
+Disallow: /letter/*
+Allow: /
+
+User-agent: SEMrushBot
+Disallow: /letter/*
+Allow: /
+
+User-agent: Mozilla/5.0 (compatible; vkShare; +http://vk.com/dev/Share)
+Disallow: /letter/*
+Allow: /
+
+User-agent WhatsApp/2.22.22.80 A
+Disallow: /letter/*
+Allow: /
+
+User-agent: *
+Allow: /

@@ -6,19 +6,22 @@
 <form class="form" action="/letter/new" method="POST">
   <div class="labeled-input">
     <label for="text">Your text</label>
-    <textarea name="text" id="text"></textarea>
+    <textarea maxlength="1200" name="text" id="text"></textarea>
+    <p class="helper-text">
+      Maximum text length 1200 characters
+    </p>
   </div>
   <div class="labeled-input">
     <label for="ttl">Lifetime of your secret letter</label>
     <input type="number" inputmode="numeric" name="ttl" id="ttl" min="{{.minTTL}}" max="{{.maxTTL}}" />
     <p class="helper-text">
-      The lifetime of a secret letter is indicated in seconds
+      Lifetime of a secret letter is indicated in seconds
     </p>
     <p class="helper-text">
       Minimum value {{ .minTTL }} seconds
     </p>
     <p class="helper-text">
-      The maximum value is {{ .maxTTL }} seconds, that is, a day
+      maximum value is {{ .maxTTL }} seconds, that is, a day
     </p>
   </div>
   <button type="submit" class="submit-button">Save secret letter</button>

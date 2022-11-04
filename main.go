@@ -11,6 +11,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"strings"
 	"syscall"
 	"time"
 
@@ -49,14 +50,14 @@ func setupRouter(r *gin.Engine, repo *Repository, kg *KeyGen) *gin.Engine {
 	tmpl := template.Must(template.ParseFS(tmplEmbed, "templates/*.html"))
 	r.SetHTMLTemplate(tmpl)
 	r.StaticFS("/static", http.FS(staticEmbed))
-
+	r.StaticFile("/robots.txt", "./static/robots.txt")
 	r.Use(connectRepository(repo))
 	r.Use(connectKeyGen(kg))
 	r.GET("/ping", pingRoute)
 	r.GET("/", indexPageRoute)
 	r.POST("/letter/new", saveLetterRoute)
 	r.GET("/key/:key", getKeyRoute)
-	r.GET("/:key", getLetterRoute)
+	r.GET("/letter/:key", getLetterRoute)
 	r.NoRoute(func(ctx *gin.Context) {
 		ctx.Redirect(http.StatusMovedPermanently, "/")
 	})
@@ -80,6 +81,24 @@ func main() {
 	}()
 
 	log.Println("Server started ...")
+
+	var requestUrl string
+
+	if strings.Contains(os.Getenv("LOCAL"), "true") {
+		requestUrl = fmt.Sprintf("http://localhost%s/ping", srv.Addr)
+	} else {
+		requestUrl = fmt.Sprintf("https://%s/ping", "secret-letters.herokuapp.com")
+		log.Println("-------------------------------------------")
+		log.Println(requestUrl)
+		log.Println("-------------------------------------------")
+	}
+
+	for interval := range time.Tick(10 * time.Minute) {
+		res, _ := http.Get(requestUrl)
+		log.Println("-------------------------------------------")
+		log.Printf("%v: %v\n", interval, res.StatusCode)
+		log.Println("-------------------------------------------")
+	}
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
