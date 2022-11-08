@@ -18,7 +18,6 @@ type RedisRepository struct {
 func (repo *RedisRepository) Get(key string) (string, error) {
 	encryptedLetter, err := repo.rdb.GetDel(repo.ctx, key).Result()
 
-
 	if err == redis.Nil || err != nil {
 		return "", errors.New("letter not found")
 	}
@@ -35,7 +34,7 @@ func (repo *RedisRepository) Get(key string) (string, error) {
 
 func (repo *RedisRepository) Check(key string) bool {
 	_, err := repo.rdb.Get(repo.ctx, key).Result()
-	return err != redis.Nil || err != nil 
+	return err != redis.Nil || err != nil
 }
 
 func (repo *RedisRepository) Set(key, letter string, ttl int) error {
@@ -45,7 +44,7 @@ func (repo *RedisRepository) Set(key, letter string, ttl int) error {
 	if err != nil {
 		return errors.New("failed to encrypt secret")
 	}
-	err = repo.rdb.Set(repo.ctx, key, encryptedLetter, time.Duration(ttl) * time.Second).Err()
+	err = repo.rdb.Set(repo.ctx, key, encryptedLetter, time.Duration(ttl)*time.Second).Err()
 
 	if err != nil || err == redis.Nil {
 		return errors.New("unable to save letter")
