@@ -6,5 +6,8 @@ This is a [small application](https://secret-letters.herokuapp.com) with which y
 
 ## How to run locally
 
-You only need to run one command:
-```docker-compose up```
+You only need to run one command (need docker installed):
+
+```shell 
+docker-compose up
+```
