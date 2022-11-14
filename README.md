@@ -6,8 +6,16 @@ This is a [small application](https://secret-letters.herokuapp.com) with which y
 
 ## How to run locally
 
-You only need to run one command (need docker installed):
+Clone repo:
+
+```shell
+git clone https://github.com/hi9mi/secret-letters.git
+```
+
+Then You only need to run one command (need docker installed):
 
 ```shell 
 docker-compose up
 ```
+
+Navigate to [`http://localhost:8080`](http://localhost:8080)
