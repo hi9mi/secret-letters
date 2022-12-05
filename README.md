@@ -1,6 +1,6 @@
 # Secret letters
 
-This is a [small application](https://secret-letters.herokuapp.com) with which you can:
+This is a small application with which you can:
 - save your letter (it will have a lifetime, after which the letter will be deleted and become inaccessible to everyone)
 - share your secrets
 
